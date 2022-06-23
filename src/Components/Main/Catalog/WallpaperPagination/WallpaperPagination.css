@@ -1,0 +1,28 @@
+.paging {
+  background: transparent;
+  margin: 5pt 10pt 5pt 10pt;
+  padding: 10pt 10pt 10pt 10pt;
+  display: flex;
+  justify-content: center;
+}
+.paginationItemStyle {
+  background-color: red !important;
+  color: blue !important;
+}
+.paginationItemStyle .page-link {
+  color: red;
+}
+.paginationItemStyle.page-item.active button {
+  background-color: green;
+  border-color: green;
+}
+.paginationLinkStyle {
+  background-color: #b90000;
+  border-radius: 5px;
+}
+.paginationLinkStyle:hover {
+  background-color: #772e2e;
+}
+.paginationLinkStyle:active {
+  background-color: #772e2e;
+}
