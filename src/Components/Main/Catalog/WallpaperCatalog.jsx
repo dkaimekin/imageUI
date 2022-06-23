@@ -70,7 +70,7 @@ const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <Container fluid="md" className="test">
         <Row>
-          <Col style={{ border: "2px dashed black" }} className="mt-4">
+          <Col style={{ border: "none" }} className="mt-4">
             {loading ? (
               <LoadingScreen status={0} />
             ) : (

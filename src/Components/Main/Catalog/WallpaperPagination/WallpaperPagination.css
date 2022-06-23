@@ -5,9 +5,8 @@
   display: flex;
   justify-content: center;
 }
-.paginationItemStyle {
-  background-color: red !important;
-  color: blue !important;
+.page-item.active .page-link {
+  background-color: #008749;
 }
 .paginationItemStyle .page-link {
   color: red;
@@ -25,4 +24,12 @@
 }
 .paginationLinkStyle:active {
   background-color: #772e2e;
+}
+
+.page-link {
+  color: #008749;
+}
+
+.page-item:active {
+  background-color: #008749;
 }
