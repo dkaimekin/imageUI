@@ -45,7 +45,7 @@ const OrderForm = (props) => {
         crop_coordinates: JSON.stringify(coordinates),
       }),
     };
-    fetch("http://127.0.0.1:8000/api/orders/", requestOptions)
+    fetch("http://localhost:8000/api/orders/", requestOptions)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
