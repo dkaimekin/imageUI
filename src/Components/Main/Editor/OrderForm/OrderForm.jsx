@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Form, Image, Modal, Container, Row } from "react-bootstrap";
+import cities from "./kz.json";
+import managers from "./managers.json";
 
 const OrderForm = (props) => {
   const {
@@ -49,7 +51,15 @@ const OrderForm = (props) => {
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
+  const renderSelectOptions = (array, element) => {
+    const optionsArray = [];
+    Object.keys(array).map((key, item) => {
+      optionsArray.push(<option>{array[key][element]}</option>);
 
+      return 0;
+    });
+    return optionsArray;
+  };
   return (
     <Modal show={showOrderForm} onHide={() => setShowOrderForm(false)}>
       <Modal.Header closeButton>ФОРМА ЗАКАЗА</Modal.Header>
@@ -64,6 +74,14 @@ const OrderForm = (props) => {
               <Form.Group>
                 <Form.Label>Телефон</Form.Label>
                 <Form.Control type="string" onChange={(event) => handleCustomerPhone(event)} />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>City</Form.Label>
+                <Form.Select>{renderSelectOptions(cities, "city")}</Form.Select>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Manager</Form.Label>
+                <Form.Select>{renderSelectOptions(managers, "name")}</Form.Select>
               </Form.Group>
             </Form>
           </Row>

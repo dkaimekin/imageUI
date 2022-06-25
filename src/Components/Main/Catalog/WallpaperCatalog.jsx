@@ -10,7 +10,8 @@ import { motion } from "framer-motion";
 import "./WallpaperCatalog.css";
 
 const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
-  const [images, setImages] = useState([]);
+  const testImage = require("../../../Images/placeholder-image.webp");
+  const [images, setImages] = useState([{ id: "0", name: "test", category: "test", url: testImage }]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalImages, setTotalImages] = useState(0);
@@ -27,15 +28,16 @@ const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
      */
     const fetchImages = async () => {
       console.log("Fetching...");
-      setLoading(true);
+      // setLoading(true);
 
-      const getTotalImages = await axios.get(api);
-      setTotalImages(getTotalImages.data.count);
+      // const getTotalImages = await axios.get(api);
+      // setTotalImages(getTotalImages.data.count);
 
-      const res = await axios.get(api + `/?p=${currentPage}`);
-      setImages(res.data.results);
+      // const res = await axios.get(api + `/?p=${currentPage}`);
+      // setImages(res.data.results);
 
-      setLoading(false);
+      // setLoading(false);
+      console.log(images);
 
       console.log(`Current page: ${currentPage}`);
     };

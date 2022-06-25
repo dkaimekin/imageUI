@@ -2,13 +2,19 @@ import React from "react";
 import { Col, Form, Row } from "react-bootstrap";
 
 const WallpaperProperties = (props) => {
-  const { wallpaperWidth, setWallpaperWidth, wallpaperHeight, setWallpaperHeight } = props;
+  const { wallpaperWidth, setWallpaperWidth, wallpaperHeight, setWallpaperHeight, setPrice } = props;
+  const changePrice = (height, width) => {
+    const price = Math.ceil((height / 100) * (width / 100) * 5000);
+    return price;
+  };
 
   const handleWallpaperHeight = (event) => {
     setWallpaperHeight(event.target.value);
+    setPrice(changePrice(event.target.value, wallpaperWidth));
   };
   const handleWallpaperWidth = (event) => {
     setWallpaperWidth(event.target.value);
+    setPrice(changePrice(wallpaperHeight, event.target.value));
   };
 
   return (
