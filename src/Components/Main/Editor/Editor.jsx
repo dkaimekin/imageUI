@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
-import { Cropper } from "react-advanced-cropper";
+import { Cropper, RectangleStencil, retrieveSizeRestrictions } from "react-advanced-cropper";
 
 import "react-advanced-cropper/dist/style.css";
 import WallpaperProperties from "./WallpaperProperties";
@@ -15,6 +15,7 @@ const Editor = (props) => {
   const [wallpaperWidth, setWallpaperWidth] = useState(100);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [price, setPrice] = useState(5000);
+  const [texture, setTexture] = useState("texture-41600");
 
   const aspectRatio = wallpaperWidth / wallpaperHeight;
 
@@ -35,6 +36,7 @@ const Editor = (props) => {
     wallpaperHeight,
     setWallpaperHeight,
     setPrice,
+    setTexture,
   };
   // styles
   const [selectedStyleEffect, setSelectedStyleEffect] = useState(0);
@@ -98,6 +100,16 @@ const Editor = (props) => {
       cropperRef.current.flipImage(horizontal, vertical);
     }
   };
+  const percentsRestriction = (state) => {
+    const settings = { minWidth: 10, minHeight: 10, maxWidth: 100, maxHeight: 100 };
+    const { minWidth, minHeight, maxWidth, maxHeight } = retrieveSizeRestrictions(settings);
+    return {
+      minWidth: (minWidth / 100) * cropperRef.current.getImage().width,
+      minHeight: (minHeight / 100) * cropperRef.current.getImage().height,
+      maxWidth: (maxWidth / 100) * cropperRef.current.getImage().width,
+      maxHeight: (maxHeight / 100) * cropperRef.current.getImage().height,
+    };
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
@@ -115,12 +127,11 @@ const Editor = (props) => {
             <Container className="mb-4">
               <Cropper
                 ref={cropperRef}
-                stencilProps={{ aspectRatio }}
+                sizeRestrictions={percentsRestriction}
+                stencilProps={{ aspectRatio: aspectRatio, previewClassName: texture }}
+                stencilComponent={RectangleStencil}
                 src={selectedImage.url}
                 style={transformSelectedEffectToMask(selectedStyleEffect)}
-                onClick={() => {
-                  console.log(cropperRef);
-                }}
               />
             </Container>
           </Col>
@@ -131,8 +142,8 @@ const Editor = (props) => {
 
               <Row>
                 <ButtonGroup>
-                  <Button onClick={() => flip(true, false)}>Отрпзить по горизонтали</Button>
-                  <Button onClick={() => flip(false, true)}>Отрпзить по вертикали</Button>
+                  <Button onClick={() => flip(true, false)}>Отразить по горизонтали</Button>
+                  <Button onClick={() => flip(false, true)}>Отразить по вертикали</Button>
                 </ButtonGroup>
                 <StyleToolbar {...propsForStyleEffect} />
               </Row>
@@ -146,6 +157,12 @@ const Editor = (props) => {
               <Button onClick={handleSubmit} className="mt-4">
                 Заказать
               </Button>
+              <Button
+                onClick={() => {
+                  console.log(cropperRef.current.getImage());
+                  console.log(`Current texture: ${texture}`);
+                }}
+              ></Button>
             </Col>
           </Row>
         </Row>
