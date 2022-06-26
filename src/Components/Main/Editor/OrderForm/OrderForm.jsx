@@ -3,6 +3,8 @@ import { Button, Form, Image, Modal, Container, Row } from "react-bootstrap";
 import cities from "./kz.json";
 import managers from "./managers.json";
 
+import "./OrderForm.css";
+
 const OrderForm = (props) => {
   const {
     showOrderForm,
@@ -14,6 +16,7 @@ const OrderForm = (props) => {
     wallpaperHeight,
     selectedStyleEffect,
     coordinates,
+    texture,
   } = props;
 
   const [customerName, setCustomerName] = useState();
@@ -60,6 +63,7 @@ const OrderForm = (props) => {
     });
     return optionsArray;
   };
+
   return (
     <Modal show={showOrderForm} onHide={() => setShowOrderForm(false)}>
       <Modal.Header closeButton>ФОРМА ЗАКАЗА</Modal.Header>
@@ -85,8 +89,10 @@ const OrderForm = (props) => {
               </Form.Group>
             </Form>
           </Row>
-          <Row className="m-2 mt-4">
-            <Image thumbnail src={image} style={style} />
+          <Row className="m-2 mt-4" id="order_image">
+            <div className={texture} style={{}}>
+              <Image thumbnail src={image} style={style} className={texture} />
+            </div>
           </Row>
         </Container>
       </Modal.Body>

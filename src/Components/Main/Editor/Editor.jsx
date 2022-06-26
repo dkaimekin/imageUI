@@ -89,6 +89,7 @@ const Editor = (props) => {
     selectedStyleEffect,
     coordinates,
     price,
+    texture,
   };
   const propsForStyleEffect = {
     styleEffects,
@@ -150,19 +151,13 @@ const Editor = (props) => {
               <Row>{price}</Row>
             </Container>
           </Col>
+          {showOrderForm ? <OrderForm {...propsForOrderForm} /> : <></>}
 
-          <OrderForm {...propsForOrderForm} />
           <Row>
             <Col className="d-flex justify-content-center">
               <Button onClick={handleSubmit} className="mt-4">
                 Заказать
               </Button>
-              <Button
-                onClick={() => {
-                  console.log(cropperRef.current.getImage());
-                  console.log(`Current texture: ${texture}`);
-                }}
-              ></Button>
             </Col>
           </Row>
         </Row>

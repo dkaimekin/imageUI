@@ -11,7 +11,11 @@ import "./WallpaperCatalog.css";
 
 const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
   const testImage = require("../../../Images/placeholder-image.webp");
-  const [images, setImages] = useState([{ id: "0", name: "test", category: "test", url: testImage }]);
+  const mountainImage = require("../../../Images/editor_test.jpeg");
+  const [images, setImages] = useState([
+    { id: "0", name: "test", category: "test", url: testImage },
+    { id: "0", name: "mountain", category: "nature", url: mountainImage },
+  ]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalImages, setTotalImages] = useState(0);
@@ -28,15 +32,15 @@ const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
      */
     const fetchImages = async () => {
       console.log("Fetching...");
-      // setLoading(true);
+      setLoading(true);
 
-      // const getTotalImages = await axios.get(api);
-      // setTotalImages(getTotalImages.data.count);
+      const getTotalImages = await axios.get(api);
+      setTotalImages(getTotalImages.data.count);
 
-      // const res = await axios.get(api + `/?p=${currentPage}`);
-      // setImages(res.data.results);
+      const res = await axios.get(api + `/?p=${currentPage}`);
+      setImages(res.data.results);
 
-      // setLoading(false);
+      setLoading(false);
       console.log(images);
 
       console.log(`Current page: ${currentPage}`);
