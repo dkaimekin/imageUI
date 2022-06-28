@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Row, Col, Offcanvas, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 
 import WallpaperCard from "./WallpaperCard";
 import WallpaperPagination from "./WallpaperPagination";
@@ -20,10 +20,10 @@ const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalImages, setTotalImages] = useState(0);
   const [imagesPerPage, setImagesPerPage] = useState(24);
-  const api = "http://localhost:8000/api/images";
+  const api = "http://192.168.8.112:8000/api/images";
 
-  const lastImageIndex = imagesPerPage * currentPage;
-  const firstImageIndex = lastImageIndex - imagesPerPage;
+  // const lastImageIndex = imagesPerPage * currentPage;
+  // const firstImageIndex = lastImageIndex - imagesPerPage;
 
   // This function is used for setting data from API
   useEffect(() => {
@@ -31,19 +31,15 @@ const WallpaperCatalog = ({ loading, setLoading, setSelectedImage }) => {
      * Function to get test data from jsonplaceholder
      */
     const fetchImages = async () => {
-      console.log("Fetching...");
-      setLoading(true);
-
-      const getTotalImages = await axios.get(api);
-      setTotalImages(getTotalImages.data.count);
-
-      const res = await axios.get(api + `/?p=${currentPage}`);
-      setImages(res.data.results);
-
-      setLoading(false);
-      console.log(images);
-
-      console.log(`Current page: ${currentPage}`);
+      // console.log("Fetching...");
+      // setLoading(true);
+      // const getTotalImages = await axios.get(api);
+      // setTotalImages(getTotalImages.data.count);
+      // const res = await axios.get(api + `/?p=${currentPage}`);
+      // setImages(res.data.results);
+      // setLoading(false);
+      // console.log(images);
+      // console.log(`Current page: ${currentPage}`);
     };
 
     fetchImages();

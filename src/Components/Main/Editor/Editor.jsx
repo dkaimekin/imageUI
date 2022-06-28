@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button, ButtonGroup, Col, Container, Row } from "react-bootstrap";
+import { Button, ButtonGroup, Col, Container, Row, Badge } from "react-bootstrap";
 import { Cropper, RectangleStencil, retrieveSizeRestrictions } from "react-advanced-cropper";
 
 import "react-advanced-cropper/dist/style.css";
@@ -148,7 +148,9 @@ const Editor = (props) => {
                 </ButtonGroup>
                 <StyleToolbar {...propsForStyleEffect} />
               </Row>
-              <Row>{price}</Row>
+              <Row>
+                <Badge bg="secondary">{price}</Badge>
+              </Row>
             </Container>
           </Col>
           {showOrderForm ? <OrderForm {...propsForOrderForm} /> : <></>}

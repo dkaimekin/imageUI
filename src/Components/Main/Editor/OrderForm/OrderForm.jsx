@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Image, Modal, Container, Row } from "react-bootstrap";
+import { Button, Form, Image, Modal, Container, Row, FloatingLabel } from "react-bootstrap";
 import cities from "./kz.json";
 import managers from "./managers.json";
-
+import EmailRegex from "./misc/EmailValidation.js";
 import "./OrderForm.css";
 
 const OrderForm = (props) => {
@@ -21,6 +21,7 @@ const OrderForm = (props) => {
 
   const [customerName, setCustomerName] = useState();
   const [customerPhone, setCustomerPhone] = useState();
+  const [validEmail, setValidEmail] = useState(false);
 
   const handleCustomerName = (event) => {
     setCustomerName(event.target.value);
@@ -63,7 +64,17 @@ const OrderForm = (props) => {
     });
     return optionsArray;
   };
-
+  /** Function that handles email validation
+   * Format of email: xxx@xxx.xxx OR xxx@xxx.xx*/
+  const handleEmailValidation = (event) => {
+    const emailAddress = event.target.value;
+    if (EmailRegex.test(emailAddress) || emailAddress.length === 0) {
+      setValidEmail(true);
+      return;
+    }
+    console.log("Invalid email");
+    setValidEmail(false);
+  };
   return (
     <Modal show={showOrderForm} onHide={() => setShowOrderForm(false)}>
       <Modal.Header closeButton>ФОРМА ЗАКАЗА</Modal.Header>
@@ -86,6 +97,20 @@ const OrderForm = (props) => {
               <Form.Group>
                 <Form.Label>Manager</Form.Label>
                 <Form.Select>{renderSelectOptions(managers, "name")}</Form.Select>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Email</Form.Label>
+                <FloatingLabel controlId="floatingInput" label="Email" className="mb-3">
+                  <Form.Control
+                    type="email"
+                    placeholder="Имя"
+                    // pattern="/.+@.+\.[A-Za-z]+$/"
+                    onChange={(event) => {
+                      handleEmailValidation(event);
+                    }}
+                    isInvalid={!validEmail}
+                  />
+                </FloatingLabel>
               </Form.Group>
             </Form>
           </Row>
