@@ -5,7 +5,15 @@ import managers from "./managers.json";
 import EmailRegex from "./misc/EmailValidation.js";
 import "./OrderForm.css";
 
+/**
+ *
+ * @param {Object} props See Editor.jsx for props information
+ * @returns React modal window (contains name, phone, city, email input fields, and the image preview)
+ */
 const OrderForm = (props) => {
+  /* ------------------------------------------------------------- */
+  /* Props destructuring */
+  /* ---------------------------- */
   const {
     showOrderForm,
     setShowOrderForm,
@@ -18,23 +26,50 @@ const OrderForm = (props) => {
     coordinates,
     texture,
   } = props;
-
+  /* End of props destructuring */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* State info */
+  /* ---------------------------- */
   const [customerName, setCustomerName] = useState();
   const [customerPhone, setCustomerPhone] = useState();
   const [validEmail, setValidEmail] = useState(false);
-
+  /* End of state info */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Hooks */
+  /* ---------------------------- */
+  useEffect(() => {
+    if (showOrderForm) document.title = "Order";
+    else document.title = "Editor";
+  });
+  /* End of hooks */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Form handlers */
+  /* ---------------------------- */
   const handleCustomerName = (event) => {
     setCustomerName(event.target.value);
   };
   const handleCustomerPhone = (event) => {
     setCustomerPhone(event.target.value);
   };
-
-  useEffect(() => {
-    if (showOrderForm) document.title = "Order";
-    else document.title = "Editor";
-  });
-
+  /** Function that handles email validation
+   * Format of email: xxx@xxx.xxx OR xxx@xxx.xx*/
+  const handleEmailValidation = (event) => {
+    const emailAddress = event.target.value;
+    if (EmailRegex.test(emailAddress) || emailAddress.length === 0) {
+      setValidEmail(true);
+      return;
+    }
+    console.log("Invalid email");
+    setValidEmail(false);
+  };
+  /* End of form handlers */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Submit handling */
+  /* ---------------------------- */
   const handleSubmit = (e) => {
     e.preventDefault();
     const requestOptions = {
@@ -55,6 +90,11 @@ const OrderForm = (props) => {
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
+  /* End of submit handling */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Custom methods */
+  /* ---------------------------- */
   const renderSelectOptions = (array, element) => {
     const optionsArray = [];
     Object.keys(array).map((key, item) => {
@@ -64,17 +104,9 @@ const OrderForm = (props) => {
     });
     return optionsArray;
   };
-  /** Function that handles email validation
-   * Format of email: xxx@xxx.xxx OR xxx@xxx.xx*/
-  const handleEmailValidation = (event) => {
-    const emailAddress = event.target.value;
-    if (EmailRegex.test(emailAddress) || emailAddress.length === 0) {
-      setValidEmail(true);
-      return;
-    }
-    console.log("Invalid email");
-    setValidEmail(false);
-  };
+  /* End of custom methods*/
+  /* ------------------------------------------------------------- */
+
   return (
     <Modal show={showOrderForm} onHide={() => setShowOrderForm(false)}>
       <Modal.Header closeButton>ФОРМА ЗАКАЗА</Modal.Header>

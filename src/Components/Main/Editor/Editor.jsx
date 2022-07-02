@@ -9,17 +9,41 @@ import StyleToolbar from "./StyleToolbar";
 import { motion } from "framer-motion";
 
 const Editor = (props) => {
+  /* ------------------------------------------------------------- */
+  /* Props destructuring */
+  /* ---------------------------- */
   const { selectedImage } = props;
+  /* End of props destructuring */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* State info */
+  /* ---------------------------- */
   const [image, setImage] = useState("");
   const [wallpaperHeight, setWallpaperHeight] = useState(100);
   const [wallpaperWidth, setWallpaperWidth] = useState(100);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [price, setPrice] = useState(5000);
   const [texture, setTexture] = useState("texture-41600");
-
+  const [selectedStyleEffect, setSelectedStyleEffect] = useState(0);
   const aspectRatio = wallpaperWidth / wallpaperHeight;
-
-  console.log(selectedImage);
+  // cropper state
+  const [coordinates, setCoordinates] = useState(null);
+  const cropperRef = useRef(null);
+  // styles state
+  const styleEffects = {
+    grayscale: { label: "Черно-белый", value: 1 },
+    sepia: { label: "Сепия", value: 2 },
+  };
+  /* End of state info */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Hooks */
+  /* ---------------------------- */
+  /**
+   * Function for preventing a reload of the editor page
+   * @param {*} event Reloading page
+   * @returns An alert with reload confirmation menu
+   */
   window.onbeforeunload = (event) => {
     const e = event || window.event;
     // Cancel the event
@@ -29,26 +53,15 @@ const Editor = (props) => {
     }
     return ""; // Legacy method for cross browser support
   };
-
-  const propsForWallpaperProperties = {
-    wallpaperWidth,
-    setWallpaperWidth,
-    wallpaperHeight,
-    setWallpaperHeight,
-    setPrice,
-    setTexture,
-  };
-  // styles
-  const [selectedStyleEffect, setSelectedStyleEffect] = useState(0);
+  /* Change document title to editor - useless, mostly */
   useEffect(() => {
     document.title = "Editor";
   }, [selectedImage]);
-
-  const styleEffects = {
-    grayscale: { label: "Черно-белый", value: 1 },
-    sepia: { label: "Сепия", value: 2 },
-  };
-
+  /* End of hooks */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Methods */
+  /* ---------------------------- */
   const transformSelectedEffectToMask = (selectedStyleEffect) => {
     let filterMask = ``;
     if (selectedStyleEffect === "grayscale") {
@@ -64,19 +77,34 @@ const Editor = (props) => {
     console.log("Mask: ", selectedStyleEffect);
     return { filter: filterMask };
   };
-
-  // cropper
-  const [coordinates, setCoordinates] = useState(null);
-  const cropperRef = useRef(null);
-
-  const handleSubmit = () => {
-    setShowOrderForm(true);
+  /* For cropper */
+  const flip = (horizontal, vertical) => {
     if (cropperRef.current) {
-      setCoordinates(cropperRef.current.getCoordinates());
-      setImage(cropperRef.current.getCanvas()?.toDataURL());
-      console.log(coordinates);
-      console.log("cropped");
+      cropperRef.current.flipImage(horizontal, vertical);
     }
+  };
+  const percentsRestriction = (state) => {
+    const settings = { minWidth: 10, minHeight: 10, maxWidth: 100, maxHeight: 100 };
+    const { minWidth, minHeight, maxWidth, maxHeight } = retrieveSizeRestrictions(settings);
+    return {
+      minWidth: (minWidth / 100) * cropperRef.current.getImage().width,
+      minHeight: (minHeight / 100) * cropperRef.current.getImage().height,
+      maxWidth: (maxWidth / 100) * cropperRef.current.getImage().width,
+      maxHeight: (maxHeight / 100) * cropperRef.current.getImage().height,
+    };
+  };
+  /* End of methods*/
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Props for other components */
+  /* ---------------------------- */
+  const propsForWallpaperProperties = {
+    wallpaperWidth,
+    setWallpaperWidth,
+    wallpaperHeight,
+    setWallpaperHeight,
+    setPrice,
+    setTexture,
   };
   const propsForOrderForm = {
     showOrderForm,
@@ -96,21 +124,22 @@ const Editor = (props) => {
     selectedStyleEffect,
     setSelectedStyleEffect,
   };
-  const flip = (horizontal, vertical) => {
+  /* End of props for other components */
+  /* ------------------------------------------------------------- */
+  /* ------------------------------------------------------------- */
+  /* Submission handlers */
+  /* ---------------------------- */
+  const handleSubmit = () => {
+    setShowOrderForm(true);
     if (cropperRef.current) {
-      cropperRef.current.flipImage(horizontal, vertical);
+      setCoordinates(cropperRef.current.getCoordinates());
+      setImage(cropperRef.current.getCanvas()?.toDataURL());
+      console.log(coordinates);
+      console.log("cropped");
     }
   };
-  const percentsRestriction = (state) => {
-    const settings = { minWidth: 10, minHeight: 10, maxWidth: 100, maxHeight: 100 };
-    const { minWidth, minHeight, maxWidth, maxHeight } = retrieveSizeRestrictions(settings);
-    return {
-      minWidth: (minWidth / 100) * cropperRef.current.getImage().width,
-      minHeight: (minHeight / 100) * cropperRef.current.getImage().height,
-      maxWidth: (maxWidth / 100) * cropperRef.current.getImage().width,
-      maxHeight: (maxHeight / 100) * cropperRef.current.getImage().height,
-    };
-  };
+  /* End of submission handlers */
+  /* ------------------------------------------------------------- */
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>

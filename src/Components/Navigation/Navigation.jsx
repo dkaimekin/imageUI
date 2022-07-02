@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import "./Navigation.css";
 
 const Navigation = ({ selectedImage }) => {
-  console.log(selectedImage === undefined);
   return (
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="sticky-top custom-navigation-bar">
       <Container fluid className="custom-navigation-bar__container">
