@@ -1,19 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Image, Modal, Container, Row, FloatingLabel } from "react-bootstrap";
+import { Button, Form, Image, Modal, Container, Row } from "react-bootstrap";
 import cities from "./kz.json";
 import managers from "./managers.json";
-import EmailRegex from "./misc/EmailValidation.js";
+
 import "./OrderForm.css";
 
-/**
- *
- * @param {Object} props See Editor.jsx for props information
- * @returns React modal window (contains name, phone, city, email input fields, and the image preview)
- */
 const OrderForm = (props) => {
-  /* ------------------------------------------------------------- */
-  /* Props destructuring */
-  /* ---------------------------- */
   const {
     showOrderForm,
     setShowOrderForm,
@@ -26,50 +18,22 @@ const OrderForm = (props) => {
     coordinates,
     texture,
   } = props;
-  /* End of props destructuring */
-  /* ------------------------------------------------------------- */
-  /* ------------------------------------------------------------- */
-  /* State info */
-  /* ---------------------------- */
+
   const [customerName, setCustomerName] = useState();
   const [customerPhone, setCustomerPhone] = useState();
-  const [validEmail, setValidEmail] = useState(false);
-  /* End of state info */
-  /* ------------------------------------------------------------- */
-  /* ------------------------------------------------------------- */
-  /* Hooks */
-  /* ---------------------------- */
-  useEffect(() => {
-    if (showOrderForm) document.title = "Order";
-    else document.title = "Editor";
-  });
-  /* End of hooks */
-  /* ------------------------------------------------------------- */
-  /* ------------------------------------------------------------- */
-  /* Form handlers */
-  /* ---------------------------- */
+
   const handleCustomerName = (event) => {
     setCustomerName(event.target.value);
   };
   const handleCustomerPhone = (event) => {
     setCustomerPhone(event.target.value);
   };
-  /** Function that handles email validation
-   * Format of email: xxx@xxx.xxx OR xxx@xxx.xx*/
-  const handleEmailValidation = (event) => {
-    const emailAddress = event.target.value;
-    if (EmailRegex.test(emailAddress) || emailAddress.length === 0) {
-      setValidEmail(true);
-      return;
-    }
-    console.log("Invalid email");
-    setValidEmail(false);
-  };
-  /* End of form handlers */
-  /* ------------------------------------------------------------- */
-  /* ------------------------------------------------------------- */
-  /* Submit handling */
-  /* ---------------------------- */
+
+  useEffect(() => {
+    if (showOrderForm) document.title = "Order";
+    else document.title = "Editor";
+  });
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const requestOptions = {
@@ -90,11 +54,6 @@ const OrderForm = (props) => {
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
-  /* End of submit handling */
-  /* ------------------------------------------------------------- */
-  /* ------------------------------------------------------------- */
-  /* Custom methods */
-  /* ---------------------------- */
   const renderSelectOptions = (array, element) => {
     const optionsArray = [];
     Object.keys(array).map((key, item) => {
@@ -104,8 +63,6 @@ const OrderForm = (props) => {
     });
     return optionsArray;
   };
-  /* End of custom methods*/
-  /* ------------------------------------------------------------- */
 
   return (
     <Modal show={showOrderForm} onHide={() => setShowOrderForm(false)}>
@@ -129,20 +86,6 @@ const OrderForm = (props) => {
               <Form.Group>
                 <Form.Label>Manager</Form.Label>
                 <Form.Select>{renderSelectOptions(managers, "name")}</Form.Select>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Email</Form.Label>
-                <FloatingLabel controlId="floatingInput" label="Email" className="mb-3">
-                  <Form.Control
-                    type="email"
-                    placeholder="Имя"
-                    // pattern="/.+@.+\.[A-Za-z]+$/"
-                    onChange={(event) => {
-                      handleEmailValidation(event);
-                    }}
-                    isInvalid={!validEmail}
-                  />
-                </FloatingLabel>
               </Form.Group>
             </Form>
           </Row>
