@@ -146,11 +146,6 @@ const OrderForm = (props) => {
               </Form.Group>
             </Form>
           </Row>
-          <Row className="m-2 mt-4" id="order_image">
-            <div className={texture} style={{}}>
-              <Image thumbnail src={image} style={style} className={texture} />
-            </div>
-          </Row>
         </Container>
       </Modal.Body>
       <Modal.Footer>

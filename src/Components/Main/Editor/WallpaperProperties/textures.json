@@ -1,31 +1,30 @@
 [
   {
-    "name": "3900",
-    "className": "texture-3900"
+    "name": "0805-00",
+    "className": "texture-0805-00"
   },
   {
-    "name": "33859",
-    "className": "texture-33859"
+    "name": "0806-00",
+    "className": "texture-0806-00"
   },
   {
-    "name": "41300",
-    "className": "texture-41300"
-  },
-
-  {
-    "name": "41600",
-    "className": "texture-41600"
+    "name": "0807-00",
+    "className": "texture-0807-00"
   },
   {
-    "name": "80973",
-    "className": "texture_80973"
+    "name": "0807-10",
+    "className": "texture-0807-10"
   },
   {
-    "name": "81069",
-    "className": "texture_81069"
+    "name": "0908-00",
+    "className": "texture-0908-00"
   },
   {
-    "name": "927498",
-    "className": "texture-927498"
+    "name": "09051-10",
+    "className": "texture-09051-10"
+  },
+  {
+    "name": "686045",
+    "className": "texture-686045"
   }
 ]

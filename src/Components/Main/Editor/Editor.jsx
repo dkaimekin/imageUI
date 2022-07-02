@@ -23,7 +23,7 @@ const Editor = (props) => {
   const [wallpaperWidth, setWallpaperWidth] = useState(100);
   const [showOrderForm, setShowOrderForm] = useState(false);
   const [price, setPrice] = useState(5000);
-  const [texture, setTexture] = useState("texture-41600");
+  const [texture, setTexture] = useState("texture-0805-00");
   const [selectedStyleEffect, setSelectedStyleEffect] = useState(0);
   const aspectRatio = wallpaperWidth / wallpaperHeight;
   // cropper state

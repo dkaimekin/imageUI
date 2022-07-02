@@ -39,30 +39,40 @@
 
 /* ---------- */
 
-.texture-41600 {
-  background: url("../src/Images/textures/texture_41600-s.png");
+/* zhana aygerim newly loaded textures */
+
+.texture-0805-00 {
+  background: url("../src/Images/textures/texture-0805-00.png");
+  opacity: 0.25;
 }
 
-.texture-41300 {
-  background: url("../src/Images/textures/texture_41300-s.png");
+.texture-0806-00 {
+  background: url("../src/Images/textures/texture-0806-00.png");
+
+  opacity: 0.25;
 }
 
-.texture-3900 {
-  background: url("../src/Images/textures/texture_3900-s.png");
-}
-.texture-33859 {
-  background: url("../src/Images/textures/texture_33859-s.png");
-}
-.texture-80973 {
-  background: url("../src/Images/textures/texture_80973-s.png");
-}
-.texture-81069 {
-  background: url("../src/Images/textures/texture_81069-s.png");
+.texture-0807-00 {
+  background: url("../src/Images/textures/texture-0807-00.png");
+  opacity: 0.25;
 }
 
-.texture-161311 {
-  background: url("../src/Images/textures/texture_161311-s.png");
+.texture-0807-10 {
+  background: url("../src/Images/textures/texture-0807-10.png");
+  opacity: 0.25;
 }
-.texture-927498 {
-  background: url("../src/Images/textures/texture_927498-s.png");
+
+.texture-0908-00 {
+  background: url("../src/Images/textures/texture-0908-00.png");
+  opacity: 0.25;
+}
+
+.texture-09051-10 {
+  background: url("../src/Images/textures/texture-09051-10.png");
+  opacity: 0.25;
+}
+
+.texture-686045 {
+  background: url("../src/Images/textures/texture-686045.png");
+  opacity: 0.25;
 }
