@@ -80,12 +80,8 @@ const OrderForm = (props) => {
                 <Form.Control type="string" onChange={(event) => handleCustomerPhone(event)} />
               </Form.Group>
               <Form.Group>
-                <Form.Label>City</Form.Label>
+                <Form.Label>Город</Form.Label>
                 <Form.Select>{renderSelectOptions(cities, "city")}</Form.Select>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Manager</Form.Label>
-                <Form.Select>{renderSelectOptions(managers, "name")}</Form.Select>
               </Form.Group>
             </Form>
           </Row>
