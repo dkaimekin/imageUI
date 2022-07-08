@@ -50,7 +50,7 @@ const OrderForm = (props) => {
         crop_coordinates: JSON.stringify(coordinates),
       }),
     };
-    fetch("http://localhost:8000/api/orders/", requestOptions)
+    fetch("http://192.168.2.112:8000/api/orders/", requestOptions)
       .then((res) => console.log(res))
       .catch((err) => console.log(err));
   };
@@ -82,6 +82,10 @@ const OrderForm = (props) => {
               <Form.Group>
                 <Form.Label>Город</Form.Label>
                 <Form.Select>{renderSelectOptions(cities, "city")}</Form.Select>
+              </Form.Group>
+              <Form.Group>
+                <Form.Label>Примечания</Form.Label>
+                <Form.Control type="string" onChange={(event) => handleCustomerName(event)} />
               </Form.Group>
             </Form>
           </Row>

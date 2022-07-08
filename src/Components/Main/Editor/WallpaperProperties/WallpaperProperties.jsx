@@ -5,13 +5,13 @@ import textures from "./textures.json";
 const WallpaperProperties = (props) => {
   const { wallpaperWidth, setWallpaperWidth, wallpaperHeight, setWallpaperHeight, setPrice, setTexture } = props;
   const changePrice = (height, width) => {
-    const price = Math.ceil((height / 100) * (width / 100) * 5000);
+    const price = Math.ceil((height / 100) * (width / 100) * 5500);
     return price;
   };
 
   const handleWallpaperHeight = (event) => {
     setWallpaperHeight(event.target.value);
-    setPrice(changePrice(event.target.value, wallpaperWidth));
+    setPrice(changePrice(event.target.value, wallpaperWidth))
   };
   const handleWallpaperWidth = (event) => {
     setWallpaperWidth(event.target.value);
@@ -32,6 +32,16 @@ const WallpaperProperties = (props) => {
     <Form>
       <Row>
         <Form.Group as={Col}>
+          <Form.Label>Ширина, см</Form.Label>
+          <Form.Control
+              id="width_form"
+              type="number"
+              min={10}
+              value={wallpaperWidth}
+              onChange={(event) => handleWallpaperWidth(event)}
+          />
+        </Form.Group>
+        <Form.Group as={Col}>
           <Form.Label>Высота, см</Form.Label>
           <Form.Control
             type="number"
@@ -40,16 +50,7 @@ const WallpaperProperties = (props) => {
             onChange={(event) => handleWallpaperHeight(event)}
           />
         </Form.Group>
-        <Form.Group as={Col}>
-          <Form.Label>Ширина, см</Form.Label>
-          <Form.Control
-            id="width_form"
-            type="number"
-            min={10}
-            value={wallpaperWidth}
-            onChange={(event) => handleWallpaperWidth(event)}
-          />
-        </Form.Group>
+
         <Row>
           <Form.Group as={Col}>
             <Form.Label lg={2} column="md">

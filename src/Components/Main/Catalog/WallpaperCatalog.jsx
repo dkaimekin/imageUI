@@ -31,18 +31,22 @@ const WallpaperCatalog = ({loading, setLoading, setSelectedImage}) => {
      * @amount {int} how many cards to display
      * @returns an array of wallpaper cards
      */
-    const [category, setCategory] = useState()
+    const [category, setCategory] = useState('0')
     const [categories, setCategories] = useState()
-    // const [category, setCategory] = useState()
+    const [search, setSearch] = useState("")
     const fetchImages = async () => {
 
         setLoading(true);
-        const res = await axios.get(api + `/images/?p=${currentPage}&category=${category}`, {
-            // headers: {
-            //   'category_id': '2'
-            // }
-        });
+        const res = await axios.get(api + `/images/?p=${currentPage}
+        ${category === '0' ? '' : `&category=` + `${category}`}
+        ${search === "" ? '' : '&search=' + search}`,
+            {
+                // headers: {
+                //   'category_id': '2'
+                // }
+            });
         setImages(res.data.results);
+        setTotalImages(res.data.count)
         setLoading(false);
         console.log(images);
         console.log(`Current page: ${currentPage}`);
@@ -59,8 +63,9 @@ const WallpaperCatalog = ({loading, setLoading, setSelectedImage}) => {
         fetchImages().then(r => console.log("Fetch successful."));
         fetchCategoriesFromApi().then(r => console.log("Fetch successful."));
         document.title = 'Catalog';
-    }, [currentPage, category]);
+    }, [currentPage, category, search]);
     console.log(categories)
+
     const renderWallpaperCards = (amount) => {
         const cards = [];
         Object.keys(images).map((key, item) => {
@@ -80,16 +85,29 @@ const WallpaperCatalog = ({loading, setLoading, setSelectedImage}) => {
         return cards;
     };
     console.log(category)
+    const handleSearch = (event) => {
+        setSearch(event.target.value)
+    }
     return (
         <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
             <Container fluid="md" className="test">
-                {categories ? <Form.Select>
-                    <option>Все</option>
-                    {Object.keys(categories).map((key, item) => {
-                        return (<option onClick={(event) => setCategory(event.target.value)}
-                                        value={categories[key].id}>{categories[key].name}</option>)
-                    })}
-                </Form.Select> : <></>}
+                <Row>
+                    <Col>
+                        {categories ? <Form.Select>
+                            <option value={0} onClick={(event) => setCategory(event.target.value)}>Рубрики</option>
+                            {Object.keys(categories).map((key, item) => {
+                                return (<option onClick={(event) => setCategory(event.target.value)}
+                                                value={categories[key].id}>{categories[key].name}</option>)
+                            })}
+                        </Form.Select> : <></>}
+
+                        <Form.Control type="string"
+                                      placeholder="Поиск"
+                                      onChange={(event) => handleSearch(event)}
+                                      value={search}
+                        />
+                    </Col>
+                </Row>
 
                 <Row>
                     <Col style={{border: "none"}} className="mt-4">
