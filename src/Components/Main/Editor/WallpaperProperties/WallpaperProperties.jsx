@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Col, Form, Row } from "react-bootstrap";
 import textures from "./textures.json";
 

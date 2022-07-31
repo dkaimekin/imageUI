@@ -1,6 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Button, ButtonGroup, Col, Container, Row, Badge } from "react-bootstrap";
-import { Cropper, RectangleStencil, retrieveSizeRestrictions } from "react-advanced-cropper";
+import React, {useEffect, useRef, useState} from "react";
+import {Button, ButtonGroup, Col, Container, Row, Badge, Alert} from "react-bootstrap";
+import {
+    Cropper,
+    RectangleStencil,
+    retrieveSizeRestrictions,
+    CropperState,
+    CoreSettings, ImageRestriction
+} from "react-advanced-cropper";
+import {ScaleLoader} from 'react-spinners'
 
 import "react-advanced-cropper/dist/style.css";
 import WallpaperProperties from "./WallpaperProperties";
@@ -15,7 +22,7 @@ const Editor = (props) => {
     const [wallpaperWidth, setWallpaperWidth] = useState(100);
     const [showOrderForm, setShowOrderForm] = useState(false);
     const [price, setPrice] = useState(5500);
-    const [texture, setTexture] = useState("texture-0805-00");
+    const [material, setMaterial] = useState("texture-0805-00");
 
     const aspectRatio = wallpaperWidth / wallpaperHeight;
 
@@ -30,14 +37,7 @@ const Editor = (props) => {
         return ""; // Legacy method for cross browser support
     };
 
-    const propsForWallpaperProperties = {
-        wallpaperWidth,
-        setWallpaperWidth,
-        wallpaperHeight,
-        setWallpaperHeight,
-        setPrice,
-        setTexture,
-    };
+
     // styles
     const [selectedStyleEffect, setSelectedStyleEffect] = useState(0);
     useEffect(() => {
@@ -89,7 +89,7 @@ const Editor = (props) => {
         selectedStyleEffect,
         coordinates,
         price,
-        texture,
+        material,
     };
     const propsForStyleEffect = {
         styleEffects,
@@ -112,6 +112,17 @@ const Editor = (props) => {
         };
     };
 
+    const resize = ({width, height, left, top}) => {
+        if (cropperRef.current) {
+            cropperRef.current.setCoordinates({
+                width: width,
+                height: height,
+                left: left,
+                top: top
+            })
+        }
+    };
+
     const defaultSize = ({imageSize, visibleArea}) => {
         return {
             width: (visibleArea || imageSize).width,
@@ -119,64 +130,100 @@ const Editor = (props) => {
         };
     };
 
+    const propsForWallpaperProperties = {
+        wallpaperWidth,
+        setWallpaperWidth,
+        wallpaperHeight,
+        setWallpaperHeight,
+        setPrice,
+        setTexture: setMaterial,
+        resize
+    };
+
+    const getSelectedImageName = (name) => {
+        return name.length > 20 ?  'Загруженное изображение' : name;
+    }
+
+    useEffect(() => {
+        resize(800, 600, 0, 0)
+    }, [wallpaperWidth, wallpaperHeight])
+
     return (
         <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
             <Container fluid className="mt-4">
                 <Row>
                     <Container fluid className="mb-4">
-                        <Col className={"d-flex justify-content-center"}>
-                            <h1>
-                                <Badge bg={"secondary"}>{selectedImage.name}</Badge>
-                            </h1>
-                        </Col>
+
                     </Container>
                 </Row>
 
                 <Row>
-                    <Col xs={12} sm={12} md={8} lg={8} xl={8}>
+                    <Col xs={12} sm={12} md={12} lg={8} xl={8} >
+
                         <Container className="mb-4">
                             <Cropper
                                 ref={cropperRef}
                                 sizeRestrictions={percentsRestriction}
-
-                                stencilProps={{aspectRatio: aspectRatio, previewClassName: texture}}
+                                imageRestriction={ImageRestriction.fillArea}
+                                stencilProps={{aspectRatio: aspectRatio, previewClassName: material}}
                                 stencilComponent={RectangleStencil}
                                 src={selectedImage.url}
                                 defaultSize={defaultSize}
                                 style={transformSelectedEffectToMask(selectedStyleEffect)}
                             />
                         </Container>
+
                     </Col>
+
                     <Col>
                         <Container className="mb-4">
+                            <Col className={"d-flex justify-content-center"}>
+                                <h3>
+                                    <Badge bg={"secondary"}>Артикул: {getSelectedImageName(selectedImage.name)}</Badge>
+                                </h3>
+                            </Col>
                             <WallpaperProperties {...propsForWallpaperProperties} />
                             <br/>
 
-              <Row>
-                <ButtonGroup>
-                  <Button onClick={() => flip(true, false)}>Отразить по горизонтали</Button>
-                  <Button onClick={() => flip(false, true)}>Отразить по вертикали</Button>
-                </ButtonGroup>
-                <StyleToolbar {...propsForStyleEffect} />
-              </Row>
-              <Row>
-                <Badge bg="secondary">{price}</Badge>
-              </Row>
-            </Container>
-          </Col>
-          {showOrderForm ? <OrderForm {...propsForOrderForm} /> : <></>}
 
-          <Row>
-            <Col className="d-flex justify-content-center">
-              <Button onClick={handleSubmit} className="mt-4">
-                Заказать
-              </Button>
-            </Col>
-          </Row>
-        </Row>
-      </Container>
-    </motion.div>
-  );
+                            <hr/>
+                            <Row>
+                                <ButtonGroup size={"sm"}>
+                                    <Button onClick={() => flip(true, false)} variant={'success'}>Отразить по
+                                        горизонтали</Button>
+                                    <Button onClick={() => flip(false, true)} variant={'success'}>Отразить по
+                                        вертикали</Button>
+                                </ButtonGroup>
+
+                            </Row>
+                            <p/>
+                            <Row>
+
+                                <StyleToolbar {...propsForStyleEffect} />
+                                <Col className="d-flex justify-content-center">
+                                    <Button onClick={handleSubmit} className="mt-4" variant={'success'}>
+                                        Заказать
+                                    </Button>
+                                    <Alert show={selectedStyleEffect !== 0} variant="danger">Вы применили эффект.
+                                        Рекомендуем заказать
+                                        пробу</Alert>
+                                </Col>
+                            </Row>
+                            <hr/>
+                            <Row>
+                                <h1>Цена: <Badge bg={'secondary'}>{price} тенге</Badge></h1>
+                            </Row>
+                        </Container>
+                    </Col>
+                    {showOrderForm ? <OrderForm {...propsForOrderForm} /> : <></>}
+
+                    <Row>
+
+                    </Row>
+                </Row>
+            </Container>
+        </motion.div>
+    );
 };
 
 export default Editor;

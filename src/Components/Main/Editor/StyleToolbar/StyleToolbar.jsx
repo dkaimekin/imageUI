@@ -29,7 +29,7 @@ const StyleToolbar = (props) => {
         <ToggleButton
           key={key}
           type="radio"
-          variant="outline-primary"
+          variant="outline-success"
           value={styleEffects[key].value}
           checked={key === selectedStyleEffect}
           onClick={() => handleSelectEffect(key)}

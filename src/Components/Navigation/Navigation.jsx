@@ -1,9 +1,12 @@
-import React from "react";
-import {Navbar, Nav, Container} from "react-bootstrap";
+import React, {useState} from "react";
+import {Navbar, Nav, Container, Button, Form} from "react-bootstrap";
 import {NavLink} from "react-router-dom";
 import "./Navigation.css";
+import {UploadForm} from "./UploadForm";
+
 
 const Navigation = ({selectedImage}) => {
+
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark" className="sticky-top custom-navigation-bar">
             <Container fluid className="custom-navigation-bar__container">
@@ -34,6 +37,9 @@ const Navigation = ({selectedImage}) => {
                                 Каталог
                             </NavLink>
                         </Nav.Item>
+                    </Nav>
+                    <Nav>
+                        {/*<Form.Control type="file" size="sm"/>*/}
                     </Nav>
                 </Navbar.Collapse>
             </Container>

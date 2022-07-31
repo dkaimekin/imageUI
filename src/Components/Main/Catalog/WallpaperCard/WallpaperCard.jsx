@@ -10,6 +10,7 @@ const WallpaperCard = ({ id, setSelectedImage, imageObject }) => {
       className="p-3"
       onClick={() => {
         setSelectedImage(imageObject);
+
         navigate("/editor", { replace: true });
       }}
     >

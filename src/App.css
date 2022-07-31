@@ -42,37 +42,43 @@
 /* zhana aygerim newly loaded textures */
 
 .texture-0805-00 {
-  background: url("../src/Images/textures/texture-0805-00.png");
   opacity: 0.25;
+  background: url("../src/Images/textures/texture-0805-00.png") repeat;
+  background-size: 10%;
 }
 
 .texture-0806-00 {
-  background: url("../src/Images/textures/texture-0806-00.png");
-
   opacity: 0.25;
+  background: url("../src/Images/textures/texture-0806-00.png") repeat;
+  background-size: 10%;
 }
 
 .texture-0807-00 {
-  background: url("../src/Images/textures/texture-0807-00.png");
+  background: url("../src/Images/textures/texture-0807-00.png") repeat;
+  background-size: 10%;
   opacity: 0.25;
 }
 
 .texture-0807-10 {
-  background: url("../src/Images/textures/texture-0807-10.png");
+  background: url("../src/Images/textures/texture-0807-10.png")repeat;
+  background-size: 10%;
   opacity: 0.25;
 }
 
 .texture-0908-00 {
-  background: url("../src/Images/textures/texture-0908-00.png");
+  background: url("../src/Images/textures/texture-0908-00.png")repeat;
+  background-size: 10%;
   opacity: 0.25;
 }
 
 .texture-09051-10 {
-  background: url("../src/Images/textures/texture-09051-10.png");
+  background: url("../src/Images/textures/texture-09051-10.png")repeat;
+  background-size: 10%;
   opacity: 0.25;
 }
 
 .texture-686045 {
-  background: url("../src/Images/textures/texture-686045.png");
+  background: url("../src/Images/textures/texture-686045.png") repeat;
+  background-size: 10%;
   opacity: 0.25;
 }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import {Container, Row, Col, Form} from "react-bootstrap";
-
+import {Container, Row, Col, Form, Button} from "react-bootstrap";
+import Uploader from './Uploader'
 import WallpaperCard from "./WallpaperCard";
 import WallpaperPagination from "./WallpaperPagination";
 import LoadingScreen from "../../LoadingScreen";
@@ -17,10 +17,17 @@ const WallpaperCatalog = ({loading, setLoading, setSelectedImage}) => {
         {id: "0", name: "mountain", category: "nature", url: mountainImage},
     ]);
 
+    // uploader modal state info
+    const [showUploader, setShowUploader] = useState(false);
+    const handleShowUploader = () => setShowUploader(true);
+    const handleCloseUploader = () => setShowUploader(false);
+    // add image handling to the state (uploader)
+    // end of modal state info
+
     const [currentPage, setCurrentPage] = useState(1);
     const [totalImages, setTotalImages] = useState(0);
     const [imagesPerPage, setImagesPerPage] = useState(24);
-    const api = "http://localhost:8000/api";
+    const api = "http://127.0.0.1:8000/api";
 
     // const lastImageIndex = imagesPerPage * currentPage;
     // const firstImageIndex = lastImageIndex - imagesPerPage;
@@ -92,41 +99,57 @@ const WallpaperCatalog = ({loading, setLoading, setSelectedImage}) => {
         <motion.div initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
             <Container fluid="md" className="test">
                 <Row>
-                    <Col>
-                        {categories ? <Form.Select>
-                            <option value={0} onClick={(event) => setCategory(event.target.value)}>Рубрики</option>
-                            {Object.keys(categories).map((key, item) => {
-                                return (<option onClick={(event) => setCategory(event.target.value)}
-                                                value={categories[key].id}>{categories[key].name}</option>)
-                            })}
-                        </Form.Select> : <></>}
+                    <Col xs={12} sm={12} md={10} lg={10} xl={10}>
+                        <Row>
+                            <Col>
+                                {categories ? <Form.Select>
+                                    <option value={0} onClick={(event) => setCategory(event.target.value)}>Рубрики
+                                    </option>
+                                    {Object.keys(categories).map((key, item) => {
+                                        return (<option onClick={(event) => {setCategory(event.target.value); console.log("Picked category")}}
+                                                        value={categories[key].id}>{categories[key].name}</option>)
+                                    })}
+                                </Form.Select> : <></>}
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Control type="string"
+                                              placeholder="Поиск"
+                                              onChange={(event) => handleSearch(event)}
+                                              value={search}
+                                />
+                            </Col>
+                        </Row>
 
-                        <Form.Control type="string"
-                                      placeholder="Поиск"
-                                      onChange={(event) => handleSearch(event)}
-                                      value={search}
-                        />
-                    </Col>
-                </Row>
+                </Col>
+                <Col xs={12} sm={12} md={2} lg={2} xl={2}>
+                    <Button variant='success' onClick={handleShowUploader}>Загрузить изображение</Button>
+                    <Uploader showUploader={showUploader} handleShowUploader={handleShowUploader}
+                              handleCloseUploader={handleCloseUploader} setSelectedImage={setSelectedImage}/>
+                </Col>
+            </Row>
 
-                <Row>
-                    <Col style={{border: "none"}} className="mt-4">
-                        {loading ? (
-                            <LoadingScreen status={0}/>
-                        ) : (
-                            <Row className="justify-content-center">{renderWallpaperCards(imagesPerPage)}</Row>
-                        )}
-                    </Col>
-                </Row>
-                <WallpaperPagination
-                    totalImages={totalImages}
-                    imagesPerPage={imagesPerPage}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
-            </Container>
-        </motion.div>
-    );
+            <Row>
+
+                <Col style={{border: "none"}} className="mt-4">
+                    {loading ? (
+                        <LoadingScreen status={0}/>
+                    ) : (
+                        <Row className="justify-content-center">{renderWallpaperCards(imagesPerPage)}</Row>
+                    )}
+                </Col>
+            </Row>
+            <WallpaperPagination
+                totalImages={totalImages}
+                imagesPerPage={imagesPerPage}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+            />
+        </Container>
+</motion.div>
+)
+    ;
 };
 
 export default WallpaperCatalog;
